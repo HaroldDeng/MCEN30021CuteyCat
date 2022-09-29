@@ -1,0 +1,81 @@
+include <./Constants.scad>;
+include <./motorHolder.scad>;
+include <./headRod.scad>
+
+// make out of distorted sphere
+module torso(radius = BASE_SPHERE_RADIUS){
+    rotate([0, -3, 0]) scale(BODY_DISTORTION) sphere(radius);
+}
+
+// make out of half sphere
+module paw(radius, cutOff = 0){
+    difference(){
+        sphere(radius);
+        translate([0, 0, -(radius+1)/2 + cutOff]) 
+            cube([radius*2+1, radius*2+1, radius+1], center = true);
+    }
+}
+
+module solidThighsAndPaws(topJointR, botJointR, topJointRt, topJointPos, 
+    botJointPos, pawPos, pawR, cutOff = 0){
+    // left
+    hull(){
+        translate(topJointPos[0]) rotate(topJointRt[0]) cylinder(0.01, topJointR, topJointR); 
+        translate(botJointPos[0]) cylinder(0.01, botJointR, botJointR); 
+    }
+    translate(pawPos[0]) paw(pawR, cutOff);
+    
+    // right
+    hull(){
+        translate(topJointPos[1]) rotate(topJointRt[1]) cylinder(0.01, topJointR, topJointR); 
+        translate(botJointPos[1]) cylinder(0.01, botJointR, botJointR); 
+    }
+    translate(pawPos[1]) paw(pawR, cutOff);
+    
+}
+
+module hollowBodyThightsAndPaws() {
+    difference() {
+        union() {
+            torso();
+            solidThighsAndPaws(SHOULDER_R, WRIST_R, SHOULDER_JOINT_RT, SHOULDER_POS, 
+                WRIST_POS, FRONT_PAW_POS, FRONT_PAW_RADIUS);
+            solidThighsAndPaws(HIP_R, HEEL_R, HIP_JOINT_RT, HIP_POS, HEEL_POS, 
+                REAR_PAW_POS, REAR_PAW_RADIUS);
+        }
+        // remove inner body
+        torso(BASE_SPHERE_RADIUS - WALL_THICKNESS);
+        solidThighsAndPaws(SHOULDER_R - WALL_THICKNESS, WRIST_R - WALL_THICKNESS, SHOULDER_JOINT_RT, SHOULDER_POS, 
+            WRIST_POS, FRONT_PAW_POS, FRONT_PAW_RADIUS - WALL_THICKNESS, WALL_THICKNESS);
+        solidThighsAndPaws(HIP_R - WALL_THICKNESS, HEEL_R - WALL_THICKNESS, HIP_JOINT_RT, HIP_POS, HEEL_POS, 
+                        REAR_PAW_POS, REAR_PAW_RADIUS- WALL_THICKNESS, WALL_THICKNESS);
+    }
+}
+
+
+module scaleAndPlaceHolder() {
+    difference() {
+        union(){
+            scale(FINAL_SCALE) difference(){
+                hollowBodyThightsAndPaws();
+                translate(TAIL_INTRUDE_POS) scale(INTRUDE_BODY_RATIO) cube(BASE_CUBE, center=true);
+            }
+            difference() {
+                union(){
+                    intersection() {
+                        scale(FINAL_SCALE) torso();
+                        translate(FRONT_HOLDER_POS) frontMotorHolder();
+                    }
+                    intersection() {
+                        scale(FINAL_SCALE) torso();
+                        translate(REAR_HOLDER_POS) frontMotorHolder();
+                    }
+                }
+                translate([0, 0, 65]) cube([1000, 1000, 100], center=true);
+            }
+        }
+
+        translate([0, 0, 75]) cube([1000, 1000, 100], center=true);
+    }
+}
+
