@@ -54,43 +54,45 @@ module hollowBodyThightsAndPaws() {
 
 
 module scaleAndPlaceHolder() {
+    scale(FINAL_SCALE) difference(){
+        hollowBodyThightsAndPaws();
+        translate(TAIL_INTRUDE_POS) scale(INTRUDE_BODY_RATIO) cube(BASE_CUBE, center=true);
+    }
     difference() {
         union(){
-            scale(FINAL_SCALE) difference(){
-                hollowBodyThightsAndPaws();
-                translate(TAIL_INTRUDE_POS) scale(INTRUDE_BODY_RATIO) cube(BASE_CUBE, center=true);
+            // front motor holder
+            intersection() {
+                scale(FINAL_SCALE) torso();
+                translate(FRONT_HOLDER_POS) frontMotorHolder();
             }
-            difference() {
-                union(){
-                    // front motor holder
-                    intersection() {
-                        scale(FINAL_SCALE) torso();
-                        translate(FRONT_HOLDER_POS) frontMotorHolder();
-                    }
 
-                    // rear motor holder
-                    intersection() {
-                        scale(FINAL_SCALE) torso();
-                        translate(REAR_HOLDER_POS) frontMotorHolder();
-                    }
-
-                    // tail anchor
-                    intersection() {
-                        scale(FINAL_SCALE) torso();
-                        translate(REAR_ANCHOR_POS) tailAnchor();
-                    }
-                }
-                translate([0, 0, 65]) cube([1000, 1000, 100], center=true);
+            // rear motor holder
+            intersection() {
+                scale(FINAL_SCALE) torso();
+                translate(REAR_HOLDER_POS) frontMotorHolder();
             }
-            
+
+            // tail anchor
+            intersection() {
+                scale(FINAL_SCALE) torso();
+                translate(REAR_ANCHOR_POS) tailAnchor();
+            }
         }
-        
-        // expose top
-        translate([0, 0, 45]) cube([1000, 1000, 100], center=true);
-        
-        // expose front
-//        translate([100, 0, 0]) cube([100, 1000, 1000], center=true);
+        translate([0, 0, 65]) cube([1000, 1000, 100], center=true);
     }
+}
+
+module catBody() {
+    difference(){
+        scaleAndPlaceHolder();
+        scale(FINAL_SCALE){
+            translate(FINAL_HEAD_POS) scale(FINAL_HEAD_SCALE) solidRod(radius=ROD_RADIUS*1.1);
+            translate(FINAL_HEAD_POS*2.25) rotate([0, 34, 0]) cube([10, 10, 1], true);
+            translate(FINAL_HEAD_POS*2.31) rotate([0, 30, 0]) cube([10, 10, 1], true);
+        }
+    }
+
+
 }
 //scaleAndPlaceHolder();
 

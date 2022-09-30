@@ -36,9 +36,15 @@ module intrudeHead() {
 }
 
 
+
 module catHead(){
-    translate(HEAD_POS) {
+    scale(FINAL_SCALE) union(){
+        translate(FINAL_HEAD_POS) scale(FINAL_HEAD_SCALE) rotate(FINAL_HEAD_RT) {
+            translate(HEAD_POS) {
                 intrudeHead();
+            }
+            headRod();
+        }
     }
 }
 
