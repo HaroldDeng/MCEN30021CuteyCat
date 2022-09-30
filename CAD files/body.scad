@@ -62,20 +62,35 @@ module scaleAndPlaceHolder() {
             }
             difference() {
                 union(){
+                    // front motor holder
                     intersection() {
                         scale(FINAL_SCALE) torso();
                         translate(FRONT_HOLDER_POS) frontMotorHolder();
                     }
+
+                    // rear motor holder
                     intersection() {
                         scale(FINAL_SCALE) torso();
                         translate(REAR_HOLDER_POS) frontMotorHolder();
                     }
+
+                    // tail anchor
+                    intersection() {
+                        scale(FINAL_SCALE) torso();
+                        translate(REAR_ANCHOR_POS) tailAnchor();
+                    }
                 }
                 translate([0, 0, 65]) cube([1000, 1000, 100], center=true);
             }
+            
         }
-
-        translate([0, 0, 75]) cube([1000, 1000, 100], center=true);
+        
+        // expose top
+        translate([0, 0, 45]) cube([1000, 1000, 100], center=true);
+        
+        // expose front
+//        translate([100, 0, 0]) cube([100, 1000, 1000], center=true);
     }
 }
+//scaleAndPlaceHolder();
 

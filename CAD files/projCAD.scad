@@ -17,21 +17,19 @@ module cutRoomForHead(){
 }
 
 module placeFrontMotro(){
-    translate([18, 5, -8]) rotate([-90, 0, 0]) motroWithHorn(-FINAL_HEAD_RT[1]+200);
-    color("green") translate([20-sin(360*$t+10)/2, 4.5, 7]) rotate([0, 2.5+sin(360*$t+10)/2, 0]) cube([33, 3, 1]);
+    translate([18, 5, -8]) rotate([-90, 0, 0]) motroWithHorn(FINAL_HEAD_RT[1]+170);
+    color("green") translate([20-sin(360*$t+10)/2, 4.5, 7]) rotate([0, -35+sin(-360*$t+180)/2, 0]) cube([33, 3, 1]);
 }
 
 module placeRearMotor(){
-    translate([-25, 5, -8]) rotate([-90, 0, 0]) motroWithHorn(-90);
-    //color("green") translate([20-sin(360*$t+10)/2, 4.5, 15]) rotate([0, 2.5+sin(360*$t+10)/2, 0]) cube([33, 3, 1]);
-
+    translate([-25, 5, -8]) rotate([-90, 0, 0]) motroWithHorn(FINAL_HEAD_RT[1] + 180);
+    color("green") translate([-67-sin(360*$t+10)/2, 15.5, -16]) rotate([0, -30, -16]) cube([53, 3, 1]);
 }
 
+module placeTail(){
+    translate(REAR_ANCHOR_POS - [0, 0, 3]) rotate([0, 0, 180]) catTail(FINAL_HEAD_RT[1]-40);
+}
 
-%cutRoomForHead();
-placeFrontMotro();
-placeRearMotor();
-//cube([80, 50, 15], center=true);
 
 // cat's head
 //scale(FINAL_SCALE) union(){
@@ -40,3 +38,12 @@ placeRearMotor();
 //        headRod();
 //    }
 //}
+
+%cutRoomForHead();
+placeFrontMotro();
+placeRearMotor();
+placeTail();
+
+
+// Ardurio UNO
+//color("orange") translate([0, 20, -17]) rotate([22, 0, 0]) cube([80, 50, 15], center=true);

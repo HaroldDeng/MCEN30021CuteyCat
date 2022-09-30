@@ -19,7 +19,9 @@ module rearMotorHolder() {
     translate([0, -20, 15]) motroWithHorn(-90);
 }
 
-//rearMotorHolder();
+module tailAnchor() {
+    color("red") cylinder(ANCHOR_LENGTH, ANCHOR_RADIUS, ANCHOR_RADIUS, center=true);
+}
 
 
 
