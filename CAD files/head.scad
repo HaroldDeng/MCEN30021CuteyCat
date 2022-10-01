@@ -38,29 +38,14 @@ module intrudeHead() {
 
 
 module catHead(){
-    rotate(FINAL_HEAD_RT) difference() {
-        union() {
-            scale(FINAL_SCALE) union(){
-                translate(FINAL_HEAD_POS) scale(FINAL_HEAD_SCALE) {
-                    translate(HEAD_POS) {
-                        intrudeHead();
-                    }
-                    headRod();
-                }
+    scale(FINAL_SCALE) union(){
+        translate(FINAL_HEAD_POS) scale(FINAL_HEAD_SCALE) rotate(FINAL_HEAD_RT) {
+            translate(HEAD_POS) {
+                intrudeHead();
             }
-
-            color("red") translate([123, 0, 114]) cube([2, 6, 22], center=true);
-            color("red") translate([115, -15, 114]) cube([2, 6, 22], center=true);
-            color("red") translate([115, 15, 114]) cube([2, 6, 22], center=true);
-            color("blue", 0.5) translate([50, 6.5, 0]) rotate([0, 0, 90]) import("./sensor.stl");
+            headRod();
         }
-
-
-        translate([115, 0, 114]) cube([7, 15, 22], center=true);
     }
-        
-
-
 }
 
-catHead();
+//catHead();

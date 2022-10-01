@@ -78,6 +78,7 @@ module scaleAndPlaceHolder() {
                 translate(REAR_ANCHOR_POS) tailAnchor();
             }
         }
+        translate([0, 0, 65]) cube([1000, 1000, 100], center=true);
     }
 }
 
@@ -89,12 +90,9 @@ module catBody() {
             translate(FINAL_HEAD_POS*2.25) rotate([0, 34, 0]) cube([10, 10, 1], true);
             translate(FINAL_HEAD_POS*2.31) rotate([0, 30, 0]) cube([10, 10, 1], true);
         }
-
-        translate([0, 0, 55]) cube([1000, 1000, 100], center=true);
     }
 
 
 }
-//catBody();
 //scaleAndPlaceHolder();
 
