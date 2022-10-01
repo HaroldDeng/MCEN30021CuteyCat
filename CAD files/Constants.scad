@@ -3,7 +3,7 @@ $fn = 32;
 
 
 // ====== general ======
-WALL_THICKNESS = 0.02;
+WALL_THICKNESS = 0.04;
 BASE_SPHERE_RADIUS = 1;
 BASE_CUBE = [1, 1, 1];
 RT_X_CW_90 = [90, 0, 0]; // rotage clockwise by 90 degree along x-aix (right-hand rule)
@@ -23,7 +23,7 @@ FINAL_ROD_POS = [BASE_SPHERE_RADIUS * 0.5, 0, BASE_SPHERE_RADIUS*0.2];
 // real physical dimension of motor's wist in mm
 // y value doesn't matter, just enought for cut a hole in the bed
 MOTOR_SIZE = [13, WALL_THICKNESS * 100, 23];
-HOLDER_BED_SIZE = [MOTOR_SIZE[0] * 2, MOTOR_SIZE[1] * 0.9, MOTOR_SIZE[2] * 10];
+HOLDER_BED_SIZE = [MOTOR_SIZE[0] * 2, MOTOR_SIZE[1] * 0.5, MOTOR_SIZE[2] * 10];
 FRONT_HOLDER_POS = [18, -10, -6];
 REAR_HOLDER_POS = [-25, -10, -6];
 REAR_ANCHOR_POS = [-75, -5, -10];
