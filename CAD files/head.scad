@@ -22,8 +22,8 @@ module hollowFaceAndEars(){
             translate(RG_EAR_POS) rotate(RG_EAR_RT) ear(HERS_SIZE);
         }
 
-        translate(LF_EAR_POS) rotate(LF_EAR_RT) ear(HERS_SIZE - WALL_THICKNESS);
-        translate(RG_EAR_POS) rotate(RG_EAR_RT) ear(HERS_SIZE - WALL_THICKNESS);
+        translate(LF_EAR_POS) rotate(LF_EAR_RT) ear(HERS_SIZE - WALL_THICKNESS * 1.5);
+        translate(RG_EAR_POS) rotate(RG_EAR_RT) ear(HERS_SIZE - WALL_THICKNESS * 1.5);
         face(BASE_SPHERE_RADIUS - WALL_THICKNESS);
     }
 }

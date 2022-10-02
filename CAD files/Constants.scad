@@ -1,9 +1,9 @@
 // render fidelity
-$fn = 32;
+$fn = 64;
 
 
 // ====== general ======
-WALL_THICKNESS = 0.02;
+WALL_THICKNESS = 0.03;
 BASE_SPHERE_RADIUS = 1;
 BASE_CUBE = [1, 1, 1];
 RT_X_CW_90 = [90, 0, 0]; // rotage clockwise by 90 degree along x-aix (right-hand rule)
