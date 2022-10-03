@@ -25,6 +25,8 @@ module hollowFaceAndEars(){
         translate(LF_EAR_POS) rotate(LF_EAR_RT) ear(HERS_SIZE - WALL_THICKNESS * 1.5);
         translate(RG_EAR_POS) rotate(RG_EAR_RT) ear(HERS_SIZE - WALL_THICKNESS * 1.5);
         face(BASE_SPHERE_RADIUS - WALL_THICKNESS);
+        cube([0.1, 0.2, 10], center=true);
+        translate([0.04, 0, 1.2]) cube([0.05, 0.8, 0.4], center=true);
     }
 }
 
@@ -38,14 +40,18 @@ module intrudeHead() {
 
 
 module catHead(){
-    scale(FINAL_SCALE) union(){
-        translate(FINAL_HEAD_POS) scale(FINAL_HEAD_SCALE) rotate(FINAL_HEAD_RT) {
+    scale(FINAL_SCALE) union(){ // rotate(FINAL_HEAD_RT) 
+        translate(FINAL_HEAD_POS) scale(FINAL_HEAD_SCALE) {
             translate(HEAD_POS) {
                 intrudeHead();
             }
             headRod();
+
+            
         }
     }
 }
 
 //catHead();
+
+//translate([18, 6, 17]) rotate([0, 0, 90]) import("./sensor.stl");
