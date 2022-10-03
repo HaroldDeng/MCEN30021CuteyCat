@@ -52,6 +52,6 @@ module catHead(){
     }
 }
 
-//catHead();
+catHead();
 
-//translate([18, 6, 17]) rotate([0, 0, 90]) import("./sensor.stl");
+//color("blue", 0.2) translate([18, 6, 17]) rotate([0, 0, 90]) import("./sensor.stl");
