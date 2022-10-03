@@ -5,3 +5,6 @@ This college project is still under development :smile_cat:
 - Harold Deng
 - Jovan Tjindra
 - Ludhia Pidiseti
+
+# View
+![Alt text](./isoView.jpg?raw=true "current progress")
