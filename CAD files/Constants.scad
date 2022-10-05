@@ -1,6 +1,10 @@
 // render fidelity
-$fn = 64;
+$fn = 32;
 
+// control
+SHOW_ARDUINO = false;
+SHOW_FRONT_MECH = false;
+SHOW_REAR_MECH = false;
 
 // ====== general ======
 WALL_THICKNESS = 0.03;
@@ -8,6 +12,9 @@ BASE_SPHERE_RADIUS = 1;
 BASE_CUBE = [1, 1, 1];
 RT_X_CW_90 = [90, 0, 0]; // rotage clockwise by 90 degree along x-aix (right-hand rule)
 
+
+// ====== Arduino ======
+ARD_SIZE = [80, 50, 15];
 
 // ====== part final rotation, scale, and position ======
 // control pars' scale number to unit size, as well as relative position to its origin

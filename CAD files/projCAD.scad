@@ -3,8 +3,10 @@ include <./body.scad>
 include <./tail.scad>
 include <./headRod.scad>
 include <./motorWithHorn.scad>
+include <./Constants.scad>
 
-//import("./sensor.stl");
+
+// ====== just for demonstration ======
 
 module placeFrontMotro(){
     translate([18, 5, -8]) rotate([-90, 0, 0]) motroWithHorn(FINAL_HEAD_RT[1]+170);
@@ -20,13 +22,22 @@ module placeTail(){
     translate(REAR_ANCHOR_POS - [0, 0, 3]) rotate([0, 0, 180]) catTail(FINAL_HEAD_RT[1]-40);
 }
 
+// ====================================
+
+
 catHead();
 catBody();
 
-//placeFrontMotro();
-//placeRearMotor();
-//placeTail();
-
+if (SHOW_FRONT_MECH){
+    placeFrontMotro();
+}
+if (SHOW_REAR_MECH){
+    placeRearMotor();
+    placeTail();
+}
 
 // Ardurio UNO
-//color("orange") translate([0, 20, -17]) rotate([22, 0, 0]) cube([80, 50, 15], center=true);
+if (SHOW_ARDUINO){
+    color("orange") translate([0, 20, -17]) 
+        rotate([22, 0, 0]) cube(ARD_SIZEs, center=true);
+}
