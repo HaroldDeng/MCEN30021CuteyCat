@@ -152,7 +152,7 @@ bool set8x8DotMatrix(short value[8][8], int frameRate, int frameCount) {
     for (int y = 0; y < 8; ++y) {
 
       // set up which led to turn on
-      // turn off the led by provide same voltage to cathode
+      // turn off the led by provides 5V to cathode
       for (int x = 0; x < 8; ++x) {
         digitalWrite(colPins[x], value[y][x] ^ 0b1);
       }
