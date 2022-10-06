@@ -4,49 +4,49 @@
    A college project
 */
 
-short H[][8] = {
+short MEH[][8] = {
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 1, 1, 0, 0, 1, 1, 0},
-  {0, 1, 1, 0, 0, 1, 1, 0},
-  {0, 1, 1, 1, 1, 1, 1, 0},
-  {0, 1, 1, 1, 1, 1, 1, 0},
-  {0, 1, 1, 0, 0, 1, 1, 0},
-  {0, 1, 1, 0, 0, 1, 1, 0},
-  {0, 1, 1, 0, 0, 1, 1, 0},
-  {0, 1, 1, 0, 0, 1, 1, 0}
-};
-
-
-short E[][8] = {
-  {0, 1, 1, 1, 1, 1, 1, 0},
-  {0, 1, 1, 1, 1, 1, 0, 0},
-  {0, 1, 1, 0, 0, 0, 0, 0},
-  {0, 1, 1, 1, 1, 0, 0, 0},
-  {0, 1, 1, 0, 0, 0, 0, 0},
-  {0, 1, 1, 0, 0, 0, 0, 0},
-  {0, 1, 1, 1, 1, 1, 0, 0},
-  {0, 1, 1, 1, 1, 1, 1, 0}
-};
-
-short L[][8] = {
-  {0, 1, 1, 0, 0, 0, 0, 0},
-  {0, 1, 1, 0, 0, 0, 0, 0},
-  {0, 1, 1, 0, 0, 0, 0, 0},
-  {0, 1, 1, 0, 0, 0, 0, 0},
-  {0, 1, 1, 0, 0, 0, 0, 0},
-  {0, 1, 1, 0, 0, 0, 0, 0},
-  {0, 1, 1, 1, 1, 1, 0, 0},
-  {0, 1, 1, 1, 1, 1, 1, 0}
-};
-
-short O[][8] = {
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 1, 1, 1, 1, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0}
+};
+
+
+short SMILING[][8] = {
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 1, 1, 0, 0, 1, 1, 0},
+  {0, 1, 1, 0, 0, 1, 1, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 1, 0, 0, 1, 0, 0},
+  {0, 0, 0, 1, 1, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0}
+};
+
+short PLAYFUL[][8] = {
+  {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 1, 0, 0, 0, 0, 1, 0},
+  {0, 0, 1, 0, 0, 1, 0, 0},
   {0, 1, 0, 0, 0, 0, 1, 0},
-  {0, 1, 0, 0, 0, 0, 1, 0},
-  {0, 1, 0, 0, 0, 0, 1, 0},
-  {0, 1, 0, 0, 0, 0, 1, 0},
-  {0, 1, 0, 0, 0, 0, 1, 0},
-  {0, 0, 1, 1, 1, 1, 0, 0}
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 1, 1, 1, 1, 0, 0},
+  {0, 0, 0, 1, 1, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0}
+};
+
+short ALL_ON[][8] = {
+  {1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1}
 };
 
 /**
@@ -66,7 +66,14 @@ int colPins[] = {
   14, 4, 5, 11, 7, 12, 16, 17 // control from column 0 to 7
 };
 
+int echo = 18;
+int trig = 19;
+double FRAC_OF_SOUND_SPEED = 29.1; // in microsecond/cm
+double distance = 9999;
+
 void setup() {
+  Serial.begin(9600); // serial communication to USB
+
   //  set pin mode
   for (int i = 0; i < 8; ++i) {
     pinMode(rowPins[i], OUTPUT);
@@ -74,17 +81,24 @@ void setup() {
     digitalWrite(rowPins[i], LOW);
     digitalWrite(colPins[i], LOW);
   }
+  pinMode(trig, OUTPUT);
+  pinMode(echo, INPUT);
 }
 void loop() {
-  set8x8DotMatrix(H, 48, 48); // play letter H for 1 second with 48 fps
-  delay(50);
-  set8x8DotMatrix(E, 48, 48);
-  delay(50);
-  set8x8DotMatrix(L, 24, 24);
-  delay(50);
-  set8x8DotMatrix(L, 24, 24);
-  delay(50);
-  set8x8DotMatrix(O, 24, 48); // play letter O for 2 second with 24 fps
+  trigSensor();
+
+  if (distance < 10) {
+    set8x8DotMatrix(PLAYFUL, 40, 10);
+  } else if (distance < 30) {
+    set8x8DotMatrix(SMILING, 40, 10);
+  } else {
+    set8x8DotMatrix(MEH, 40, 10);
+  }
+
+
+
+  distance = readSensor();
+  Serial.println(distance); // view distance in Tools -> Serial Monitor
 }
 
 
@@ -149,11 +163,11 @@ void loop() {
 bool set8x8DotMatrix(short value[8][8], int frameRate, int frameCount) {
   int dTime = (int)(1000 / 8 / (double)frameRate); // lit up time per line in microsecond
   while (frameCount > 0) {
-    for (int y = 0; y < 8; ++y) {
+    for (int y = 1; y < 7; ++y) {
 
       // set up which led to turn on
       // turn off the led by provides 5V to cathode
-      for (int x = 0; x < 8; ++x) {
+      for (int x = 1; x < 7; ++x) {
         digitalWrite(colPins[x], value[y][x] ^ 0b1);
       }
 
@@ -166,4 +180,14 @@ bool set8x8DotMatrix(short value[8][8], int frameRate, int frameCount) {
     }
     --frameCount;
   }
+}
+
+void trigSensor() {
+  digitalWrite(trig, HIGH);
+}
+double readSensor() {
+  digitalWrite(trig, LOW);
+
+  // read wave travel time in microseconds
+  return pulseIn(echo, HIGH) / 2 / FRAC_OF_SOUND_SPEED;
 }
