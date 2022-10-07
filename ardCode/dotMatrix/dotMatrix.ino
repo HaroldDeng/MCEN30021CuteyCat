@@ -62,18 +62,22 @@ short ALL_ON[][8] = {
    Save Adruino pin number as follow
 */
 int rowPins[] = {
-  10, 15, 9, 13, 2, 8, 3, 6   // Arduino pin controls matrix row 0 to 7
+  // Arduino pin controls matrix row 0 to 7
+  // but since we don't need row 0 and 7, just replace with -1
+  -1, 15, 9, 13, 2, 8, 3, -1   
 };
 int colPins[] = {
-  14, 4, 5, 11, 7, 12, 16, 17 // control from column 0 to 7
+  // control from column 0 to 7
+  // but since we don't need 0 and 7, just replace with -1
+  -1, 4, 5, 11, 7, 12, 16, -1
 };
 
 int echo = 18;
 int trig = 19;
 double FRAC_OF_SOUND_SPEED = 29.1; // in microsecond/cm
 double distance = 9999;
-int HEAD_SERVO_PIN = 17;
-int btm = 14;
+int HEAD_SERVO_PIN = 6;
+int btm = 17;
 
 Servo headServo;
 //Servo tail_servo;
@@ -94,9 +98,8 @@ void setup() {
   headServo.attach(HEAD_SERVO_PIN);
 }
 void loop() {
-  if (analogRead(btm) > 900) {
+  if (digitalRead(btm)) {
     trigSensor();
-    delay(1);
     distance = readSensor();
   }
 
