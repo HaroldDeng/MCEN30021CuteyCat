@@ -4,6 +4,8 @@
    A college project
 */
 
+#include<Servo.h>
+
 short MEH[][8] = {
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
@@ -70,12 +72,17 @@ int echo = 18;
 int trig = 19;
 double FRAC_OF_SOUND_SPEED = 29.1; // in microsecond/cm
 double distance = 9999;
+int HEAD_SERVO_PIN = 17;
+int btm = 14;
+
+Servo headServo;
+//Servo tail_servo;
 
 void setup() {
   Serial.begin(9600); // serial communication to USB
 
   //  set pin mode
-  for (int i = 0; i < 8; ++i) {
+  for (int i = 1; i < 7; ++i) {
     pinMode(rowPins[i], OUTPUT);
     pinMode(colPins[i], OUTPUT);
     digitalWrite(rowPins[i], LOW);
@@ -83,22 +90,27 @@ void setup() {
   }
   pinMode(trig, OUTPUT);
   pinMode(echo, INPUT);
+  pinMode(btm, INPUT);
+  headServo.attach(HEAD_SERVO_PIN);
 }
 void loop() {
-  trigSensor();
-
-  if (distance < 10) {
-    set8x8DotMatrix(PLAYFUL, 40, 10);
-  } else if (distance < 30) {
-    set8x8DotMatrix(SMILING, 40, 10);
-  } else {
-    set8x8DotMatrix(MEH, 40, 10);
+  if (analogRead(btm) > 900) {
+    trigSensor();
+    delay(1);
+    distance = readSensor();
   }
 
+  if (distance < 10) {
+    set8x8DotMatrix(PLAYFUL, 40, 20);
+  } else if (distance < 30) {
+    set8x8DotMatrix(SMILING, 40, 20);
+  } else {
+    set8x8DotMatrix(MEH, 40, 20);
+  }
 
+  headServo.write(random(0, 320));
 
-  distance = readSensor();
-  Serial.println(distance); // view distance in Tools -> Serial Monitor
+  Serial.println(analogRead(btm)); // view distance in Tools -> Serial Monitor
 }
 
 
@@ -149,7 +161,7 @@ void loop() {
    1588BS doesn't have internal memory to "save" LEDs' state, thus
    we need to apply multiplexing technique. Multiplexing is the technique
    employed to operate LED matrices. By multiplexing, only one row
-   of the LED matrix is activated at any one time. [1] By flashing leds
+   of the LED matrix is activated at any time. [1] By flashing leds
    fast in sequence, human proceed as continuous pixel arts.
 
   [1] (2013, July 11). https://docs.broadcom.com/doc/AV02-3697EN. Docs.
@@ -189,5 +201,5 @@ double readSensor() {
   digitalWrite(trig, LOW);
 
   // read wave travel time in microseconds
-  return pulseIn(echo, HIGH) / 2 / FRAC_OF_SOUND_SPEED;
+  return pulseIn(echo, HIGH) / 2 / FRAC_OF_SOUND_SPEED;;
 }
