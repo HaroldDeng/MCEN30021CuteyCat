@@ -1,5 +1,5 @@
 /**
-   Name: Zhihao Deng
+   Name: Zhihao Deng, Jovan Tjindra
    Last modify: Oct. 8
    A college project
 */
@@ -139,8 +139,6 @@ void loop() {
     if (tailRad >= PI * 2) {
       tailRad = 0;
     }
-
-
   }
 
   Serial.println(analogRead(btm)); // view distance in Tools -> Serial Monitor
