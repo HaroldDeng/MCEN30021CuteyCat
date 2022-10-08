@@ -1,10 +1,26 @@
 /**
    Name: Zhihao Deng
-   Last modify: Oct. 5
+   Last modify: Oct. 8
    A college project
 */
 
 #include<Servo.h>
+
+
+#define echo 18
+#define trig 19
+#define FRAC_OF_SOUND_SPEED 29.1 // in microsecond/cm
+
+#define btm 17 // button pin to trigger program fire the sensor
+
+#define HEAD_SERVO_PIN        6
+#define TAIL_SERVO_PIN        10
+#define HEAD_SERVO_AMPLITUDE  30 // define post limits
+#define HEAD_SERVO_MEAN       40
+#define TAIL_SERVO_AMPLITUDE  60
+#define TAIL_SERVO_MEAN       30
+#define HEAD_ELAPSE          (PI / 20) // rad rotate in each loop
+#define TAIL_ELAPSE          (PI / 30)
 
 short MEH[][8] = {
   {0, 0, 0, 0, 0, 0, 0, 0},
@@ -64,7 +80,7 @@ short ALL_ON[][8] = {
 int rowPins[] = {
   // Arduino pin controls matrix row 0 to 7
   // but since we don't need row 0 and 7, just replace with -1
-  -1, 15, 9, 13, 2, 8, 3, -1   
+  -1, 15, 9, 13, 2, 8, 3, -1
 };
 int colPins[] = {
   // control from column 0 to 7
@@ -72,15 +88,13 @@ int colPins[] = {
   -1, 4, 5, 11, 7, 12, 16, -1
 };
 
-int echo = 18;
-int trig = 19;
-double FRAC_OF_SOUND_SPEED = 29.1; // in microsecond/cm
+
 double distance = 9999;
-int HEAD_SERVO_PIN = 6;
-int btm = 17;
+float headRad = 0; // current post
+float tailRad = 0;
 
 Servo headServo;
-//Servo tail_servo;
+Servo tailServo;
 
 void setup() {
   Serial.begin(9600); // serial communication to USB
@@ -96,7 +110,9 @@ void setup() {
   pinMode(echo, INPUT);
   pinMode(btm, INPUT);
   headServo.attach(HEAD_SERVO_PIN);
+  tailServo.attach(TAIL_SERVO_PIN);
 }
+
 void loop() {
   if (digitalRead(btm)) {
     trigSensor();
@@ -104,17 +120,33 @@ void loop() {
   }
 
   if (distance < 10) {
-    set8x8DotMatrix(PLAYFUL, 40, 20);
+    set8x8DotMatrix(PLAYFUL, 40, 4);
   } else if (distance < 30) {
-    set8x8DotMatrix(SMILING, 40, 20);
+    set8x8DotMatrix(SMILING, 40, 4);
   } else {
-    set8x8DotMatrix(MEH, 40, 20);
+    set8x8DotMatrix(MEH, 40, 4);
   }
 
-  headServo.write(random(0, 320));
+  if (distance < 30) {
+    headServo.write(sin(headRad) * HEAD_SERVO_AMPLITUDE + HEAD_SERVO_MEAN); // rotate servo
+    tailServo.write(sin(tailRad) * TAIL_SERVO_AMPLITUDE + TAIL_SERVO_MEAN); // rotate servo
+    headRad += HEAD_ELAPSE;
+    tailRad += TAIL_ELAPSE;
+
+    if (headRad >= PI * 2) {
+      headRad = 0;
+    }
+    if (tailRad >= PI * 2) {
+      tailRad = 0;
+    }
+
+
+  }
 
   Serial.println(analogRead(btm)); // view distance in Tools -> Serial Monitor
 }
+
+
 
 
 

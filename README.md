@@ -8,3 +8,4 @@ This college project is still under development :smile_cat:
 
 # View
 ![Alt text](./isoView.jpg?raw=true "current progress")
+![Alt text](./circuitDiagram.jpg?raw=true "circuit diagram")
