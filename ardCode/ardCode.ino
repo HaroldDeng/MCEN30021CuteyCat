@@ -18,7 +18,7 @@
 #define HEAD_SERVO_AMPLITUDE  30 // define post limits
 #define HEAD_SERVO_MEAN       40
 #define TAIL_SERVO_AMPLITUDE  60
-#define TAIL_SERVO_MEAN       30
+#define TAIL_SERVO_MEAN       40
 #define HEAD_ELAPSE          (PI / 20) // rad rotate in each loop
 #define TAIL_ELAPSE          (PI / 30)
 
@@ -92,6 +92,8 @@ int colPins[] = {
 double distance = 9999;
 float headRad = 0; // current post
 float tailRad = 0;
+bool isBtmPressing = false;
+bool isRtHead = false;
 
 Servo headServo;
 Servo tailServo;
@@ -111,37 +113,71 @@ void setup() {
   pinMode(btm, INPUT);
   headServo.attach(HEAD_SERVO_PIN);
   tailServo.attach(TAIL_SERVO_PIN);
+  headServo.write(HEAD_SERVO_MEAN); // init pose
+  tailServo.write(TAIL_SERVO_MEAN);
 }
 
+/**
+  infinite loop
+
+  Logic
+  ---
+  the program at first detecte button press. If button signal is high, program will
+  triggre the ultrasonic sensor to read distance as long as button is pressed. At the
+  sametime, randomly select either head motor or tail motor to rotate, code snippet
+  runs once, during any long press. 
+  With detected distance, if it's less than 10 cm, play playful emoji in dot matrix, at
+  the same time move head and tail. If distance is between 10 and 30 cm, play smiling 
+  emoji, move head or tail according to randomizer result, If distance is neither about
+  play meh emoji only.
+*/
 void loop() {
-  if (digitalRead(btm)) {
+  if (analogRead(btm) > 1000) {
     trigSensor();
     distance = readSensor();
+
+    // only random once at initial press
+    if (isBtmPressing == false) {
+      isRtHead = random(0, 2) == 0 ? true : false;
+    }
+    isBtmPressing = true;
+  } else if (isBtmPressing) {
+    // reset
+    isBtmPressing = false;
   }
 
   if (distance < 10) {
     set8x8DotMatrix(PLAYFUL, 40, 4);
+    turnHeadMotor();
+    turnTailMotor();
   } else if (distance < 30) {
     set8x8DotMatrix(SMILING, 40, 4);
+    if (isRtHead) {
+      turnHeadMotor();
+    } else {
+      turnTailMotor();
+    }
   } else {
     set8x8DotMatrix(MEH, 40, 4);
   }
 
-  if (distance < 30) {
-    headServo.write(sin(headRad) * HEAD_SERVO_AMPLITUDE + HEAD_SERVO_MEAN); // rotate servo
-    tailServo.write(sin(tailRad) * TAIL_SERVO_AMPLITUDE + TAIL_SERVO_MEAN); // rotate servo
-    headRad += HEAD_ELAPSE;
-    tailRad += TAIL_ELAPSE;
+  Serial.println(distance); // view distance in Tools -> Serial Monitor
+}
 
-    if (headRad >= PI * 2) {
-      headRad = 0;
-    }
-    if (tailRad >= PI * 2) {
-      tailRad = 0;
-    }
+void turnHeadMotor() {
+  headServo.write(sin(headRad) * HEAD_SERVO_AMPLITUDE + HEAD_SERVO_MEAN); // rotate servo
+  headRad += HEAD_ELAPSE;
+  if (headRad >= PI * 2) {
+    headRad = 0;
   }
+}
 
-  Serial.println(analogRead(btm)); // view distance in Tools -> Serial Monitor
+void turnTailMotor() {
+  tailServo.write(sin(tailRad) * TAIL_SERVO_AMPLITUDE + TAIL_SERVO_MEAN);
+  tailRad += TAIL_ELAPSE;
+  if (tailRad >= PI * 2) {
+    tailRad = 0;
+  }
 }
 
 
