@@ -1,6 +1,7 @@
 include <./Constants.scad>;
 include <./motorHolder.scad>;
-include <./headRod.scad>
+include <./headRod.scad>;
+include <./utils.scad>;
 
 // make out of distorted sphere
 module torso(radius = BASE_SPHERE_RADIUS){
@@ -91,8 +92,50 @@ module catBody() {
             translate(FINAL_HEAD_POS*2.31) rotate([0, 30, 0]) cube([10, 10, 1], true);
         }
     }
+    translate([-2, 0, -34.5])disk();
+    translate([-60, 0, -28.5]) rotate([0, 20, 0]) disk();
+    translate([60, 0, -23.5]) rotate([0, -20, 0]) disk();
 
-
+    translate([-78, 0, 15.0]) rotate([0, 150, 0]) disk();
+    
 }
-//scaleAndPlaceHolder();
+
+module removeTop(){
+    difference(){
+        catBody();
+        translate([0, 0, 125])cube(200, center=true);
+    }
+
+    translate([0, -42.7, 23]) rotate(-RT_X_CW_90) scale([1, 0.5, 1]) disk();
+    translate([0, 42.7, 23]) rotate(RT_X_CW_90) scale([1, 0.5, 1]) disk();
+}
+
+module justTop(){
+    translate([0, 0, 150])
+    union(){
+        intersection(){
+            catBody();
+            translate([0, 0, 125])cube(200, center=true);
+        }
+
+        translate([0, -40.7, 25]) leftBar();
+        translate([0, 40.7, 25]) rightBar();
+    }
+}
+
+
+translate([0, -80, 0])
+difference(){
+    removeTop();
+    translate([0, 100, 0]) cube(200, center=true);
+}
+
+translate([0, 80, 0])
+intersection(){
+    removeTop();
+    translate([0, 100, 0]) cube(200, center=true);
+}
+
+justTop();
+
 

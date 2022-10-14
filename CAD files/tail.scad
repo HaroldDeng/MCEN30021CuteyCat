@@ -1,3 +1,5 @@
+include <./Constants.scad>;
+
 FUNC_START = 30;
 FUNC_STOP = 60;
 FUNC_STEPS = 0.5;
@@ -34,5 +36,4 @@ module catTail(degree){
     }
 }
 
-// $fn = 15;
-// catTail();
+// catTail(0);

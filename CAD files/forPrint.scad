@@ -16,24 +16,15 @@ include <./motorWithHorn.scad>
 //    translate([0, -500, 0]) cube(1000, center=true);
 //}
 
-//translate([-130, 50, 0]) rotate(RT_X_CW_90 + [0, 0, 5]) difference() {
-//    intersection() {
-//        catBody();
-//        translate([0, 0, -470]) cube(1000, center=true);
-//    }
-//    
-//    translate([0, -500, 0]) cube(1000, center=true);
+//translate([-130, 50, 0]) rotate(-RT_X_CW_90 - [0, 0, 5]) difference() {
+//    removeTop();
+//    translate([0, 100, 0]) cube(200, center=true);
 //}
-//
-//translate([-130, -50, 0]) rotate(-RT_X_CW_90 - [0, 0, 5]) difference() {
-//    intersection() {
-//        catBody();
-//        translate([0, 0, -470]) cube(1000, center=true);
-//    }
-//    translate([0, 500, 0]) cube(1000, center=true);
+
+//translate([130, 50, 0]) rotate(RT_X_CW_90 - [0, 0, 5]) difference() {
+//    removeTop();
+//    translate([0, -100, 0]) cube(200, center=true);
 //}
+
 //
-translate([-20, 0, -30]) difference() {
-    catBody();
-    translate([0, 0, -470]) cube(1000, center=true);
-}
+translate([0, 0, -170]) justTop();

@@ -1,5 +1,5 @@
 // render fidelity
-$fn = 32;
+$fn = 64;
 
 // control
 SHOW_ARDUINO = false;
@@ -11,7 +11,7 @@ WALL_THICKNESS = 0.03;
 BASE_SPHERE_RADIUS = 1;
 BASE_CUBE = [1, 1, 1];
 RT_X_CW_90 = [90, 0, 0]; // rotage clockwise by 90 degree along x-aix (right-hand rule)
-
+RT_Y_CW_90 = [0, 90, 0];
 
 // ====== Arduino ======
 ARD_SIZE = [80, 50, 15];
@@ -29,13 +29,13 @@ FINAL_ROD_POS = [BASE_SPHERE_RADIUS * 0.5, 0, BASE_SPHERE_RADIUS*0.2];
 
 // real physical dimension of motor's wist in mm
 // y value doesn't matter, just enought for cut a hole in the bed
-MOTOR_SIZE = [13, WALL_THICKNESS * 100, 23];
-HOLDER_BED_SIZE = [MOTOR_SIZE[0] * 2, MOTOR_SIZE[1] * 0.9, MOTOR_SIZE[2] * 10];
+MOTOR_SIZE = [15, WALL_THICKNESS * 100, 27];
+HOLDER_BED_SIZE = [MOTOR_SIZE[0] * 1.8, MOTOR_SIZE[1] * 0.7, MOTOR_SIZE[2] * 10];
 FRONT_HOLDER_POS = [18, -10, -6];
 REAR_HOLDER_POS = [-25, -10, -6];
-REAR_ANCHOR_POS = [-75, -5, -10];
+REAR_ANCHOR_POS = [-75, -5, -15];
 ANCHOR_RADIUS = 1.5;
-ANCHOR_LENGTH = 40;
+ANCHOR_LENGTH = 30;
 
 // ====== for body ======
 BODY_DISTORTION = [1.0, 0.6, 0.4];

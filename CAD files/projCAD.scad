@@ -25,16 +25,17 @@ module placeTail(){
 // ====================================
 
 
-catHead();
-catBody();
+//catHead();
+//catBody();
 
 if (SHOW_FRONT_MECH){
     placeFrontMotro();
 }
 if (SHOW_REAR_MECH){
     placeRearMotor();
-    placeTail();
+    
 }
+translate([-50, 0, 0]) placeTail();
 
 // Ardurio UNO
 if (SHOW_ARDUINO){
