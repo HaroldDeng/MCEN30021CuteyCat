@@ -50,18 +50,17 @@ module catHead(){
         }
     }
     
-    translate([80, 0, 9]) disk();
-    translate([129, 0, 91]) rotate([0, -122, 0]) disk();
-    translate([34, 0, 40]) rotate([0, 60, 0]) disk();
+    translate([70, 0, 126]) rotate([0, -10, 0]) disk();
+    translate([45, 0, 19]) rotate([0, -100, 0]) disk();
 }
 
 //translate([0, -50, 0])difference(){
 //    catHead();
-//    translate([100, 100, 100]) cube(200, center=true);
+//    translate([150, 150, 100]) cube(300, center=true);
 //}
 //translate([0, 50, 0])intersection(){
 //    catHead();
-//    translate([100, 100, 100]) cube(200, center=true);
+//    translate([150, 150, 100]) cube(300, center=true);
 //}
 
 //catHead();

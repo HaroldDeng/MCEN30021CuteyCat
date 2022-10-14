@@ -111,7 +111,7 @@ module removeTop(){
 }
 
 module justTop(){
-    translate([0, 0, 150])
+    //translate([0, 0, 150])
     union(){
         intersection(){
             catBody();
@@ -124,18 +124,18 @@ module justTop(){
 }
 
 
-translate([0, -80, 0])
-difference(){
-    removeTop();
-    translate([0, 100, 0]) cube(200, center=true);
-}
+//translate([0, -80, 0])
+//difference(){
+//    removeTop();
+//    translate([0, 100, 0]) cube(200, center=true);
+//}
 
-translate([0, 80, 0])
-intersection(){
-    removeTop();
-    translate([0, 100, 0]) cube(200, center=true);
-}
+//translate([0, 80, 0])
+//intersection(){
+//    removeTop();
+//    translate([0, 100, 0]) cube(200, center=true);
+//}
 
-justTop();
-
+//justTop();
+//
 
