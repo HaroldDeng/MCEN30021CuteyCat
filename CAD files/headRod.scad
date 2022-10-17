@@ -29,10 +29,8 @@ module hornWithHoles(){
 
 // create supporting rod for the head
 module headRod() {
-    //scale(ROD_SCALE){
-        hollowRod();
-        hornWithHoles();
-    //}
+    hollowRod();
+    hornWithHoles();
 }
 
 //headRod();

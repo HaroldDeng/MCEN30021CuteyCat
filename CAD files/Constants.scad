@@ -1,10 +1,10 @@
 // render fidelity
-$fn = 64;
+$fn = 32;
 
 // control
 SHOW_ARDUINO = false;
-SHOW_FRONT_MECH = false;
-SHOW_REAR_MECH = false;
+SHOW_FRONT_MECH = true;
+SHOW_REAR_MECH = true;
 
 // ====== general ======
 WALL_THICKNESS = 0.03;
@@ -104,6 +104,7 @@ ROD_LENGTH = BASE_SPHERE_RADIUS * 1.6;
 HORN_BED_SIZE = [BASE_SPHERE_RADIUS*0.35, BASE_SPHERE_RADIUS*0.02, ROD_RADIUS * 3];
 HORN_HOLE_RADIUS = HORN_BED_SIZE[2] / 10;
 HORN_HLOE_POS_1 = [-HORN_BED_SIZE[0] * 0.34, 0, 0];
+echo(HORN_HLOE_POS_1);
 HORN_HLOE_POS_2 = [HORN_BED_SIZE[0] * 0.34, 0, 0];
 HORN_RT = [0, 50, 0];
 HORN_POS = [0, BASE_SPHERE_RADIUS*0.1, 0];

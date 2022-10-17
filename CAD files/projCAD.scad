@@ -25,20 +25,42 @@ module placeTail(){
 // ====================================
 
 
-//catHead();
+//removeTop();
 //catBody();
 
-if (SHOW_FRONT_MECH){
-    placeFrontMotro();
+module abc(){
+    if (SHOW_FRONT_MECH){
+        placeFrontMotro();
+    }
+    if (SHOW_REAR_MECH){
+        placeRearMotor();
+        
+    }
+    translate([-1, 0, 5]) placeTail();
+    catHead();
 }
-if (SHOW_REAR_MECH){
-    placeRearMotor();
-    
-}
-translate([-50, 0, 0]) placeTail();
 
-// Ardurio UNO
-if (SHOW_ARDUINO){
-    color("orange") translate([0, 20, -17]) 
-        rotate([22, 0, 0]) cube(ARD_SIZEs, center=true);
+color("grey"){
+    abc();
+    
+    translate([200, 0, 0]) rotate([-90, -90, 0]) abc();
+
+    translate([-120, -100, 0]) rotate([90, 0, 180]) abc();
+
+    translate([180, -100, 0]) rotate([135, 0, 180]) abc();
+
 }
+
+
+
+
+
+
+
+
+
+//// Ardurio UNO
+//if (SHOW_ARDUINO){
+//    color("orange") translate([0, 20, -17]) 
+//        rotate([22, 0, 0]) cube(ARD_SIZEs, center=true);
+//}

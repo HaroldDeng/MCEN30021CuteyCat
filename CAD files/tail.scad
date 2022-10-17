@@ -20,7 +20,7 @@ module catTail(degree){
             c_length  = 3;
             c_width = 4;
             c_height = 1.5;
-            translate([0, -4, 0]) cube([3, 6, 1], center=true);
+            translate([0, -4, 0]) square([3, 6], center=true);
             
 
         }
@@ -29,10 +29,16 @@ module catTail(degree){
         // holes
         circle(0.5);
         for(i = [0:2]){
-            translate([0, -4 - 2 * i, 0]) cylinder(5, 0.5, 0.5, center=true);
+            translate([0, -4 - 2 * i, 0]) circle(r=0.5);
         }
 
 
     }
 }
-//catTail(0);
+
+//color("grey") {
+    catTail(0);
+//    translate([150, 0, 0]) rotate([-90, 0, 0]) catTail(0);
+//    translate([50, -100, 0]) rotate([-90, 90, 0]) catTail(0);
+//    translate([150, -100, 0])rotate([130, -40, 0]) catTail(0);
+//}

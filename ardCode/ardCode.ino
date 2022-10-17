@@ -1,17 +1,15 @@
 /**
    Name: Zhihao Deng, Jovan Tjindra
-   Last modify: Oct. 8
-   A college project
+   Last modify: Oct. 16
 */
 
-#include<Servo.h>
+#include<Servo.h> // using servo motors
 
-
-#define echo 18
-#define trig 19
+#define echo A4    // echo pin for proximity sensor
+#define trig A5
 #define FRAC_OF_SOUND_SPEED 29.1 // in microsecond/cm
 
-#define btm 17 // button pin to trigger program fire the sensor
+#define btm A0 // button pin to trigger program fire the sensor
 
 #define HEAD_SERVO_PIN        6
 #define TAIL_SERVO_PIN        10
@@ -22,7 +20,7 @@
 #define HEAD_ELAPSE          (PI / 20) // rad rotate in each loop
 #define TAIL_ELAPSE          (PI / 30)
 
-short MEH[][8] = {
+short MEH[][8] = { // pixel art
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 1, 1, 0, 0, 1, 1, 0},
@@ -92,7 +90,8 @@ int colPins[] = {
 double distance = 9999;
 float headRad = 0; // current post
 float tailRad = 0;
-bool isBtmPressing = false;
+//bool isBtmPressing = false;
+long pressTime = -1;
 bool isRtHead = false;
 
 Servo headServo;
@@ -122,67 +121,64 @@ void setup() {
 
   Logic
   ---
-  the program at first detecte button press. If button signal is high, program will
-  triggre the ultrasonic sensor to read distance as long as button is pressed. At the
+  the program at first detects button presses. If button signal is high, program will
+  trigger the ultrasonic sensor to read distance as long as the button is pressed. At the
   sametime, randomly select either head motor or tail motor to rotate, code snippet
-  runs once, during any long press. 
+  runs once, during any long press.
   With detected distance, if it's less than 10 cm, play playful emoji in dot matrix, at
-  the same time move head and tail. If distance is between 10 and 30 cm, play smiling 
+  the same time move head and tail. If distance is between 10 and 30 cm, play smiling
   emoji, move head or tail according to randomizer result, If distance is neither about
   play meh emoji only.
 */
 void loop() {
   if (analogRead(btm) > 1000) {
-    trigSensor();
-    distance = readSensor();
+    if (pressTime == -1) {
+      pressTime = millis();
+    } else if (millis() - pressTime > 100) {
+      trigSensor();
+      distance = readSensor();
 
-    // only random once at initial press
-    if (isBtmPressing == false) {
       isRtHead = random(0, 2) == 0 ? true : false;
+      //isBtmPressing = true;
     }
-    isBtmPressing = true;
-  } else if (isBtmPressing) {
+  } else {
     // reset
-    isBtmPressing = false;
+    pressTime = -1;
   }
 
   if (distance < 10) {
     set8x8DotMatrix(PLAYFUL, 40, 4);
-    turnHeadMotor();
-    turnTailMotor();
+    rtHeadMotor(); // rotate both motors
+    rtTailMotor();
   } else if (distance < 30) {
     set8x8DotMatrix(SMILING, 40, 4);
-    if (isRtHead) {
-      turnHeadMotor();
+    if (isRtHead) {  // rotate motor depends on randomized result
+      rtHeadMotor();
     } else {
-      turnTailMotor();
+      rtTailMotor();
     }
   } else {
     set8x8DotMatrix(MEH, 40, 4);
   }
 
-  Serial.println(distance); // view distance in Tools -> Serial Monitor
+  Serial.println(analogRead(btm)); // view distance in Tools -> Serial Monitor
 }
 
-void turnHeadMotor() {
+void rtHeadMotor() {
   headServo.write(sin(headRad) * HEAD_SERVO_AMPLITUDE + HEAD_SERVO_MEAN); // rotate servo
   headRad += HEAD_ELAPSE;
   if (headRad >= PI * 2) {
-    headRad = 0;
+    headRad = 0; // reser
   }
 }
 
-void turnTailMotor() {
+void rtTailMotor() {
   tailServo.write(sin(tailRad) * TAIL_SERVO_AMPLITUDE + TAIL_SERVO_MEAN);
   tailRad += TAIL_ELAPSE;
   if (tailRad >= PI * 2) {
     tailRad = 0;
   }
 }
-
-
-
-
 
 /**
    control logic for 1588BS LED dot matrix
@@ -197,9 +193,9 @@ void turnTailMotor() {
 
    Identify pins configuration
    ---
-   We identify the positive oriantation as follows: metal pins pointing downward, LEDs
+   We identify the positive orientation as follows: metal pins pointing downward, LEDs
    facing upward, the side with text or small bump facing toward us.
-   With positive oriantation, mark row of pins closer to you as A to H from left to right,
+   With positive orientation, mark row of pins closer to you as A to H from left to right,
    mark row of pins away from you as I to P from right to left. As shown below:
 
     P O N M L K J I

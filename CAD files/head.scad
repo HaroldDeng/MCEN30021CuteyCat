@@ -54,15 +54,33 @@ module catHead(){
     translate([45, 0, 19]) rotate([0, -100, 0]) disk();
 }
 
-//translate([0, -50, 0])difference(){
-//    catHead();
-//    translate([150, 150, 100]) cube(300, center=true);
-//}
-//translate([0, 50, 0])intersection(){
+color("grey") translate([50, -50, 0])difference(){
+    catHead();
+    translate([150, 150, 100]) cube(300, center=true);
+}
+color("grey") translate([50, -50, 0]) rotate([0, 0, -90]) difference(){
+    catHead();
+    translate([150, 150, 100]) cube(300, center=true);
+}
+//color("grey") translate([50, 50, 0])intersection(){
 //    catHead();
 //    translate([150, 150, 100]) cube(300, center=true);
 //}
 
-//catHead();
+//color("grey") translate([250, 50, 0]) rotate([0, 0, -90])intersection(){
+//    catHead();
+//    translate([150, 150, 100]) cube(300, center=true);
+//}
+
+//color("grey"){
+//    catHead();
+//
+//    translate([250, -75, 0]) rotate([-90, -90, 0]) catHead();
+//
+//    translate([0, -250, 0]) rotate([90, 180, 180]) catHead();
+//
+//    translate([250, -240, 0]) rotate([50, 120, 180]) catHead();
+//}
+
 
 //color("blue", 0.2) translate([18, 6, 17]) rotate([0, 0, 90]) import("./sensor.stl");

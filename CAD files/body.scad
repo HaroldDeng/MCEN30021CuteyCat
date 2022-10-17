@@ -129,13 +129,44 @@ module justTop(){
 //    removeTop();
 //    translate([0, 100, 0]) cube(200, center=true);
 //}
+//
 
-//translate([0, 80, 0])
-//intersection(){
-//    removeTop();
-//    translate([0, 100, 0]) cube(200, center=true);
+
+
+module left(){
+    intersection(){
+        removeTop();
+        translate([0, 100, 0]) cube(200, center=true);
+    }
+}
+
+module right(){
+    difference(){
+        removeTop();
+        translate([0, 100, 0]) cube(200, center=true);
+    }
+}
+
+//color("grey"){
+//    left();
+//    translate([0, -100, 0]) rotate([-90, 0, 0]) left();
+//    translate([170, -100, 0]) rotate([-90, -90, 0]) left();
+//    translate([220, 0, 0]) rotate([180, 0, 180]) left();
 //}
 
-//justTop();
-//
+//color("grey"){
+//    translate([320, 0, 0]) rotate([-90, -90, 0]) right();
+//    translate([140, 0, 0]) rotate([-90, 0, 0]) right();
+//     translate([-50, 0, 0]) rotate([-90, 90, 0]) right();
+//    translate([140, -150, 0]) rotate([-180, -180, 0]) right();
+//    translate([140, -220, 0]) rotate([-90, -180, 0]) right();
+//}
+
+color("grey"){
+    rotate([-90, 0, 0])justTop();
+    translate([200, 0, 0]) rotate([-90, 90, 0]) justTop();
+}
+
+
+
 
