@@ -9,7 +9,7 @@
 #define trig A5
 #define FRAC_OF_SOUND_SPEED 29.1 // in microsecond/cm
 
-#define btm A0 // button pin to trigger program fire the sensor
+#define btm A3 // button pin to trigger program fire the sensor
 
 #define HEAD_SERVO_PIN        6
 #define TAIL_SERVO_PIN        10
