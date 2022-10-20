@@ -13,12 +13,12 @@
 
 #define HEAD_SERVO_PIN        6
 #define TAIL_SERVO_PIN        10
-#define HEAD_SERVO_AMPLITUDE  30 // define post limits
-#define HEAD_SERVO_MEAN       40
+#define HEAD_SERVO_AMPLITUDE  15 // define post limits
+#define HEAD_SERVO_MEAN       45
 #define TAIL_SERVO_AMPLITUDE  60
-#define TAIL_SERVO_MEAN       40
+#define TAIL_SERVO_MEAN       80
 #define HEAD_ELAPSE          (PI / 20) // rad rotate in each loop
-#define TAIL_ELAPSE          (PI / 30)
+#define TAIL_ELAPSE          (PI / 10)
 
 short MEH[][8] = { // pixel art
   {0, 0, 0, 0, 0, 0, 0, 0},
@@ -90,7 +90,7 @@ int colPins[] = {
 double distance = 9999;
 float headRad = 0; // current post
 float tailRad = 0;
-//bool isBtmPressing = false;
+bool isBtmPressing = false;
 long pressTime = -1;
 bool isRtHead = false;
 
@@ -134,16 +134,18 @@ void loop() {
   if (analogRead(btm) > 1000) {
     if (pressTime == -1) {
       pressTime = millis();
-    } else if (millis() - pressTime > 100) {
-      trigSensor();
-      distance = readSensor();
-
-      isRtHead = random(0, 2) == 0 ? true : false;
-      //isBtmPressing = true;
+    } else if (millis() - pressTime > 100 /*&& !isBtmPressing*/) {
+      if (!isBtmPressing) {
+        trigSensor();
+        distance = readSensor();
+        isRtHead = random(0, 2) == 0 ? true : false;
+        isBtmPressing = true;
+      }
     }
   } else {
     // reset
     pressTime = -1;
+    isBtmPressing = false;
   }
 
   if (distance < 10) {
